@@ -1,0 +1,36 @@
+{
+    "name": "nextbss/vpos-php",
+    "description": "The one stop shop for online payments in Angola, allowing you to process payments requests from EMIS GPO through vPOS.",
+    "type": "library",
+    "keywords": 
+        ["vpos", 
+        "vpos-php",
+        "nextbss",
+        "payments", 
+        "angola"
+    ],
+    "homepage": "https://github.com/nextbss/vpos-php",
+    "require": {
+        "php": "^7.2 || ^8",
+        "phpunit/phpunit": "^9.5",
+        "ramsey/uuid": "^4.1"
+    },
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexandre Antonio Juca",
+            "email": "alexandre.juca@nextbss.co.ao"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "nextbss\\Vpos\\Test\\": "tests/"
+        }
+    }
+}
