@@ -1,16 +1,18 @@
 <?php
     declare(strict_types=1);
 
-    namespace Vpos\Test;
+    namespace Vpos\VposTest;
 
     use PHPUnit\Framework\TestCase;
-
+    use Vpos\Vpos;
 
     class VposTest extends TestCase 
     {
         public function testItShouldGetTransactions() 
         {
-            $this->assertEquals(1, 0);
+            $merchant = new Vpos\Vpos();
+            $transactions = $merchant->getTransactions();
+            $this->assertIsArray($transactions);
         }
     }
 
