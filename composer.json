@@ -24,13 +24,13 @@
         }
     ],
     "autoload": {
-        "classmap": [
-            "src/"
-        ]
+        "psr-4": {
+            "Vpos\\Vpos\\": "src/"
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "nextbss\\Vpos\\Test\\": "tests/"
+            "Vpos\\VposTest\\": "tests/"
         }
     }
 }
