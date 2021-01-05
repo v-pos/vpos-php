@@ -13,6 +13,8 @@
             $merchant = new Vpos\Vpos();
             $transactions = $merchant->getTransactions();
             $this->assertIsArray($transactions);
+            $this->assertEquals(200, $transactions['status']);
+            $this->assertEquals('OK', $transactions['message']);
         }
     }
 
