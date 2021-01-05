@@ -61,6 +61,7 @@
         private function set_headers() 
         {
             return [
+                'http_errors' => false,
                 'headers' => [
                 'Authorization' => $this->getMerchantToken(),
                 'Content-Type' => 'application/json',
