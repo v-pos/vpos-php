@@ -3,6 +3,8 @@
     declare(strict_types=1);
     namespace Vpos\Vpos;
 
+    use GuzzleHttp\Client;
+
     final class Vpos
     {
         private $host = "";
@@ -11,20 +13,60 @@
         private $payment_callback_url = "";
         private $supervisor_card = "";
         private $merchant_vpos_token = "";
+        private $client = null;
 
         public function __construct() 
         {
-             $host = $this->getHost();
-             $pos_id = $this->getPosId();
-             $refund_callback_url = $this->getRefundCallbackUrl();
-             $payment_callback_url = $this->getPaymentCallbackUrl();
-             $supervisor_card = $this->getSupervisorCard();
-             $merchant_vpos_token = $this->getMerchantToken();
+            $this->host = $this->getHost();
+            $this->pos_id = $this->getPosId();
+            $this->refund_callback_url = $this->getRefundCallbackUrl();
+            $this->payment_callback_url = $this->getPaymentCallbackUrl();
+            $this->supervisor_card = $this->getSupervisorCard();
+            $this->merchant_vpos_token = $this->getMerchantToken();
+            $this->client = new \GuzzleHttp\Client();
         }
 
         public function getTransactions() 
         {
-            return null;
+            $response = $this->client->request('GET', $this->host . "/transactions", $this->set_headers());
+            echo var_dump($response);
+            return $this->return_vpos_object($response);
+        }
+
+        private function return_vpos_object($response) 
+        {
+
+            switch($response->getStatusCode()) {
+                case 200 || 201:
+                    return [
+                    'status' => $response->getStatusCode(),
+                    'message' => '',
+                    'data' => $response->getBody()
+                ];
+                case 202 || 203: 
+                    return [
+                        'status' => $response->getStatusCode(),
+                        'message' => '',
+                        'location' => $response->getBody()
+                 ];
+                 default:
+                 return [
+                    'status' => $response->getStatusCode(),
+                    'message' => '',
+                    'details' => $response->getBody()
+                ];
+                    
+            }
+        }
+
+        private function set_headers() 
+        {
+            return [
+                'headers' => [
+                'Authorization' => $this->getMerchantToken(),
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json']
+            ];
         }
 
         private function getPosId() 
@@ -49,8 +91,7 @@
 
         private function getMerchantToken() 
         {
-            $token = getenv("MERCHANT_VPOS_TOKEN");
-            return "Bearer " . $token;
+            return "Bearer " . getenv("MERCHANT_VPOS_TOKEN");
         }
 
         private function getHost() 
