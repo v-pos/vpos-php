@@ -9,3 +9,4 @@ phpunit.xml
 Vagrantfile
 .idea
 .php_cs.cache
+.vendor
