@@ -29,7 +29,6 @@
         public function getTransactions() 
         {
             $response = $this->client->request('GET', $this->host . "/transactions", $this->set_headers());
-            echo var_dump($response);
             return $this->return_vpos_object($response);
         }
 
