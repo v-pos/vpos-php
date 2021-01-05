@@ -39,19 +39,19 @@
                 case 200 || 201:
                     return [
                     'status' => $response->getStatusCode(),
-                    'message' => '',
+                    'message' => $response->getReasonPhrase(),
                     'data' => $response->getBody()
                 ];
                 case 202 || 203: 
                     return [
                         'status' => $response->getStatusCode(),
-                        'message' => '',
+                        'message' => $response->getReasonPhrase(),
                         'location' => $response->getBody()
                  ];
                  default:
                  return [
                     'status' => $response->getStatusCode(),
-                    'message' => '',
+                    'message' => $response->getReasonPhrase(),
                     'details' => $response->getBody()
                 ];
                     
