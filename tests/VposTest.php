@@ -53,6 +53,16 @@
             $this->assertEquals(401, $transaction['status']);
             $this->assertEquals('Unauthorized', $transaction['message']);
         }
+
+        public function testItShouldNotPerformPaymentIfTokenIsInvalid() 
+        {
+            $merchant = new Vpos\Vpos();
+            $merchant->setToken("invalid-token");
+            $transaction = $merchant->newPayment("92588855", "1912.58");
+            $this->assertIsArray($transaction);
+            $this->assertEquals(401, $transaction['status']);
+            $this->assertEquals('Unauthorized', $transaction['message']);
+        }
     }
 
 ?>
