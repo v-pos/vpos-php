@@ -35,13 +35,23 @@
             $this->assertEquals('Unauthorized', $transactions['message']);
         }
 
-        public function testItShouldNotGetTransactionsIfIdDoesNotExist() 
+        public function testItShouldNotGetTransactionIfIdDoesNotExist() 
         {
             $merchant = new Vpos\Vpos();
             $transaction = $merchant->getTransaction("9kOmKYUWxN0Jpe4PBoXzE");
             $this->assertIsArray($transaction);
             $this->assertEquals(404, $transaction['status']);
             $this->assertEquals('Not Found', $transaction['message']);
+        }
+
+        public function testItShouldNotGetTransactionByIdIfTokenIsInvalid() 
+        {
+            $merchant = new Vpos\Vpos();
+            $merchant->setToken("invalid-token");
+            $transaction = $merchant->getTransaction("9kOmKYUWxN0Jpe4PBoXzE");
+            $this->assertIsArray($transaction);
+            $this->assertEquals(401, $transaction['status']);
+            $this->assertEquals('Unauthorized', $transaction['message']);
         }
     }
 
