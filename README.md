@@ -63,7 +63,8 @@ Retrieves a transaction given a valid transaction ID.
 ```php
 use Vpos\Vpos;
 
-TODO
+$merchant = new Vpos\Vpos();
+$transaction = $merchant->getTransaction("9kOmKYUWxN0Jpe4PBoXzE");
 ```
 
 | Argument | Description | Type |

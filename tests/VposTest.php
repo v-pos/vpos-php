@@ -5,9 +5,17 @@
 
     use PHPUnit\Framework\TestCase;
     use Vpos\Vpos;
+    use Ramsey\Uuid\Uuid;
 
     class VposTest extends TestCase 
     {
+        private $valid_token = "";
+
+        public function setUp(): void
+        {
+            $this->valid_token = getenv("MERCHANT_VPOS_TOKEN");
+        }
+
         public function testItShouldGetTransactions() 
         {
             $merchant = new Vpos\Vpos();
@@ -19,12 +27,31 @@
 
         public function testItShouldNotGetTransactionsIfTokenIsInvalid() 
         {
-            putenv("MERCHANT_VPOS_TOKEN=invalid");
             $merchant = new Vpos\Vpos();
+            $merchant->setToken("invalid-token");
             $transactions = $merchant->getTransactions();
             $this->assertIsArray($transactions);
             $this->assertEquals(401, $transactions['status']);
             $this->assertEquals('Unauthorized', $transactions['message']);
+        }
+
+        public function testItShouldNotGetTransactionIfIdDoesNotExist() 
+        {
+            $merchant = new Vpos\Vpos();
+            $transaction = $merchant->getTransaction("9kOmKYUWxN0Jpe4PBoXzE");
+            $this->assertIsArray($transaction);
+            $this->assertEquals(404, $transaction['status']);
+            $this->assertEquals('Not Found', $transaction['message']);
+        }
+
+        public function testItShouldNotGetTransactionByIdIfTokenIsInvalid() 
+        {
+            $merchant = new Vpos\Vpos();
+            $merchant->setToken("invalid-token");
+            $transaction = $merchant->getTransaction("9kOmKYUWxN0Jpe4PBoXzE");
+            $this->assertIsArray($transaction);
+            $this->assertEquals(401, $transaction['status']);
+            $this->assertEquals('Unauthorized', $transaction['message']);
         }
     }
 
