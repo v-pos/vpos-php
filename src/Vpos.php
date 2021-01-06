@@ -30,13 +30,23 @@
         public function getTransactions() 
         {
             $response = $this->client->request('GET', $this->host . "/transactions", $this->set_headers());
-            return $this->return_vpos_object($response);
+            return $this->returnVposObject($response);
         }
 
         public function getTransaction($id)
         {
             $response = $this->client->request("GET", $this->host . "/transactions/" . $id, $this->set_headers());
-            return $this->return_vpos_object($response);
+            return $this->returnVposObject($response);
+        }
+
+        public function newPayment($customer, $amount) {
+            $options = $this->setRequestOptions(
+                customer: $customer,
+                amount: $amount,
+                transaction_type: "payment"
+            );
+            $response = $this->client->request("POST", $this->host . "/transactions", $options);
+            return $this->returnVposObject($response);
         }
 
         public function setToken($token): void 
@@ -44,7 +54,7 @@
             $this->merchant_vpos_token = "Bearer ". $token;
         }
 
-        private function return_vpos_object($response) 
+        private function returnVposObject($response) 
         {
 
             switch($response->getStatusCode()) {
@@ -70,15 +80,23 @@
             }
         }
 
-        private function set_post_headers() 
+        private function setRequestOptions($customer, $amount, $transaction_type) 
         {
             return [
                 'http_errors' => false,
+                'json' => [
+                    'type' => $transaction_type,
+                    'pos_id' => $this->pos_id,
+                    'mobile' => $customer,
+                    'amount' => $amount,
+                    'callback_url' => $this->payment_callback_url
+                ],
                 'headers' => [
                 'Idempotency-Key' => Uuid::uuid4()->toString(),  
                 'Authorization' => $this->merchant_vpos_token,
                 'Content-Type' => 'application/json',
-                'Accept' => 'application/json']
+                'Accept' => 'application/json'
+                ]
             ];
         }
 
