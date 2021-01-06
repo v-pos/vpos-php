@@ -4,6 +4,7 @@
     namespace Vpos\Vpos;
 
     use GuzzleHttp\Client;
+    use Ramsey\Uuid\Uuid;
 
     final class Vpos
     {
@@ -32,6 +33,17 @@
             return $this->return_vpos_object($response);
         }
 
+        public function getTransaction($id)
+        {
+            $response = $this->client->request("GET", $this->host . "/transactions/" . $id, $this->set_headers());
+            return $this->return_vpos_object($response);
+        }
+
+        public function setToken($token): void 
+        {
+            $this->merchant_vpos_token = "Bearer ". $token;
+        }
+
         private function return_vpos_object($response) 
         {
 
@@ -58,12 +70,24 @@
             }
         }
 
+        private function set_post_headers() 
+        {
+            return [
+                'http_errors' => false,
+                'headers' => [
+                'Idempotency-Key' => Uuid::uuid4()->toString(),  
+                'Authorization' => $this->merchant_vpos_token,
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json']
+            ];
+        }
+
         private function set_headers() 
         {
             return [
                 'http_errors' => false,
                 'headers' => [
-                'Authorization' => $this->getMerchantToken(),
+                'Authorization' => $this->merchant_vpos_token,
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json']
             ];
