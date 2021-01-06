@@ -63,6 +63,15 @@
             $this->assertEquals(401, $transaction['status']);
             $this->assertEquals('Unauthorized', $transaction['message']);
         }
+
+        public function testItShouldNotPerformPaymentIfAmountIsInvalid() 
+        {
+            $merchant = new Vpos\Vpos();
+            $transaction = $merchant->newPayment("92588855", "invalid");
+            $this->assertIsArray($transaction);
+            $this->assertEquals(400, $transaction['status']);
+            $this->assertEquals('Bad Request', $transaction['message']);
+        }
     }
 
 ?>
