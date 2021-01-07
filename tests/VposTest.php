@@ -81,6 +81,15 @@
             $this->assertEquals(400, $transaction['status']);
             $this->assertEquals('Bad Request', $transaction['message']);
         }
+
+        public function testItShouldPerformPayment() 
+        {
+            $merchant = new Vpos\Vpos();
+            $payment = $merchant->newPayment(customer: "925888553", amount: "112.58");
+            $this->assertIsArray($payment);
+            $this->assertEquals(202, $payment['status']);
+            $this->assertEquals('Accepted', $payment['message']);
+        }
     }
 
 ?>
