@@ -78,7 +78,8 @@ and a valid amount.
 ```php
 use Vpos\Vpos;
 
-TODO
+$merchant = new Vpos\Vpos();
+$payment = $merchant->newPayment(customer: "925889553", amount: "112.58");
 ```
 
 | Argument | Description | Type |
@@ -92,22 +93,24 @@ Given an existing `parent_transaction_id`, request a refund.
 ```php
 use Vpos\Vpos;
 
-TODO
+$merchant = new Vpos\Vpos();
+refund = $merchant->newRefund(id: "9kOmKYUWxN0Jpe4PBoXzE");
 ```
 
 | Argument | Description | Type |
 | --- | --- | --- |
-| `parent_transaction_id` | The ID of transaction you wish to refund | `string`
+| `id` | The ID of transaction you wish to refund | `string`
 
 ### Poll Transaction Status
 Poll the status of a transaction given a valid `request_id`. 
 
-Note: The `request_id` in this context is essentially the `transaction_id` of an existing request. 
+Note: The `request_id` or simply `id` in this context is essentially the `transaction_id` of an existing request. 
 
 ```php
 use Vpos\Vpos;
 
-TODO
+$merchant = new Vpos\Vpos();
+$request = $merchant->getRequest(id: "9kOmKYUWxN0Jpe4PBoXzE");
 ```
 
 | Argument | Description | Type |

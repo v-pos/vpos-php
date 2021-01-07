@@ -16,6 +16,7 @@
             $this->valid_token = getenv("MERCHANT_VPOS_TOKEN");
         }
 
+        // Get Transactions
         public function testItShouldGetTransactions() 
         {
             $merchant = new Vpos\Vpos();
@@ -54,6 +55,7 @@
             $this->assertEquals('Unauthorized', $transaction['message']);
         }
 
+        // New Payment
         public function testItShouldNotPerformPaymentIfTokenIsInvalid() 
         {
             $merchant = new Vpos\Vpos();
@@ -89,6 +91,54 @@
             $this->assertIsArray($payment);
             $this->assertEquals(202, $payment['status']);
             $this->assertEquals('Accepted', $payment['message']);
+            $this->assertNotFalse('', $payment['location']);
+        }
+
+        // New Refund
+        public function testItShouldNotPerformRefundIfTokenIsInvalid()
+        {
+            $merchant = new Vpos\Vpos();
+            $merchant->setToken("invalid-token");
+            $transaction = $merchant->newRefund(id: "non-existent-transaction-id");
+            $this->assertIsArray($transaction);
+            $this->assertEquals(401, $transaction['status']);
+            $this->assertEquals('Unauthorized', $transaction['message']);
+        }
+
+        public function testItShouldNotPerformRefundIfIdDoesNotExist()
+        {
+            $merchant = new Vpos\Vpos();
+            $transaction = $merchant->newRefund(id: "non-existent-transaction-id");
+            $this->assertIsArray($transaction);
+            $this->assertEquals(202, $transaction['status']);
+            $this->assertEquals('Accepted', $transaction['message']);
+        }
+
+        // Poll Resource
+        public function testItShouldNotGetRequestByIdIfTokenIsInvalid()
+        {
+            $merchant = new Vpos\Vpos();
+            $merchant->setToken("invalid-token");
+            $request = $merchant->getRequest(id: "9kOmKYUWxN0Jpe4PBoXzE");
+            $this->assertIsArray($request);
+            $this->assertEquals(401, $request['status']);
+            $this->assertEquals('Unauthorized', $request['message']);
+        }
+
+
+        public function testItShouldGetRequestById()
+        {
+            $merchant = new Vpos\Vpos();
+
+            $payment = $merchant->newPayment(customer: "925888553", amount: "112.58");
+
+            $id = $merchant->getRequestId($payment);
+
+            $request = $merchant->getRequest(id: $id);
+            $this->assertIsArray($request);
+            $this->assertEquals(200, $request['status']);
+            $this->assertEquals('OK', $request['message']);
+            $this->assertNotEmpty($request['data']);
         }
     }
 

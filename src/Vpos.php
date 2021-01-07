@@ -16,6 +16,7 @@
         private $supervisor_card = "";
         private $merchant_vpos_token = "";
         private $client = null;
+        const LOCATION = 17;
 
         public function __construct() 
         {
@@ -30,24 +31,49 @@
 
         public function getTransactions() 
         {
-            $response = $this->client->request('GET', $this->host . "/transactions", $this->set_headers());
+            $response = $this->client->request('GET', $this->host . "/transactions", $this->setDefaultRequestOptions());
             return $this->returnVposObject($response);
         }
 
         public function getTransaction($id)
         {
-            $response = $this->client->request("GET", $this->host . "/transactions/" . $id, $this->set_headers());
+            $response = $this->client->request("GET", $this->host . "/transactions/" . $id, $this->setDefaultRequestOptions());
             return $this->returnVposObject($response);
         }
 
-        public function newPayment($customer, $amount) {
-            $options = $this->setRequestOptions(
+        public function newPayment($customer, $amount)
+        {
+            $options = $this->setRequestOptionsForPayment(
                 customer: $customer,
                 amount: $amount,
                 transaction_type: "payment"
             );
             $response = $this->client->request("POST", $this->host . "/transactions", $options);
             return $this->returnVposObject($response);
+        }
+
+        public function newRefund($id)
+        {
+            $options = $this->setRequestOptionsForRefund(
+                transaction_id: $id,
+                transaction_type: "refund"
+            );
+            $response = $this->client->request("POST", $this->host . "/transactions", $options);
+            return $this->returnVposObject($response);
+        }
+
+        public function getRequest($id)
+        {
+            $options = $this->setDefaultRequestOptions();
+            $response = $this->client->request("GET", $this->host . "/requests/" . $id, $options);
+            return $this->returnVposObject($response);
+        }
+
+        public function getRequestId($response)
+        {
+            if ($response['status'] == 202) {
+                return substr($response['location'], self::LOCATION);
+            }
         }
 
         public function setToken($token): void 
@@ -57,34 +83,34 @@
 
         private function returnVposObject($response) 
         {
-
             switch($response->getStatusCode()) {
-                case 200 || 201:
+                case 200:
                     return [
                     'status' => $response->getStatusCode(),
                     'message' => $response->getReasonPhrase(),
-                    'data' => $response->getBody()
+                    'data' => $response->getBody()->getContents()
                 ];
-                case 202 || 203: 
+                case 202:
                     return [
                         'status' => $response->getStatusCode(),
                         'message' => $response->getReasonPhrase(),
-                        'location' => $response->getBody()
+                        'location' => $response->getHeader('Location')[0]
                  ];
                  default:
                  return [
                     'status' => $response->getStatusCode(),
                     'message' => $response->getReasonPhrase(),
-                    'details' => $response->getBody()
+                    'details' => $response->getBody()->getContents()
                 ];
                     
             }
         }
 
-        private function setRequestOptions($customer, $amount, $transaction_type) 
+        private function setRequestOptionsForPayment($customer, $amount, $transaction_type)
         {
             return [
                 'http_errors' => false,
+                ['allow_redirects' => false],
                 'json' => [
                     'type' => $transaction_type,
                     'pos_id' => $this->pos_id,
@@ -101,10 +127,31 @@
             ];
         }
 
-        private function set_headers() 
+            private function setRequestOptionsForRefund($transaction_id, $transaction_type)
+            {
+                return [
+                    'http_errors' => false,
+                    ['allow_redirects' => false],
+                    'json' => [
+                        'type' => $transaction_type,
+                        'parent_transaction_id' => $transaction_id,
+                        'supervisor_card' => $this->supervisor_card,
+                        'callback_url' => $this->refund_callback_url
+                    ],
+                    'headers' => [
+                        'Idempotency-Key' => Uuid::uuid4()->toString(),
+                        'Authorization' => $this->merchant_vpos_token,
+                        'Content-Type' => 'application/json',
+                        'Accept' => 'application/json'
+                    ]
+                ];
+            }
+
+        private function setDefaultRequestOptions()
         {
             return [
                 'http_errors' => false,
+                ['allow_redirects' => false],
                 'headers' => [
                 'Authorization' => $this->merchant_vpos_token,
                 'Content-Type' => 'application/json',
