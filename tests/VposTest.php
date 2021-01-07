@@ -100,6 +100,15 @@
             $this->assertEquals(401, $transaction['status']);
             $this->assertEquals('Unauthorized', $transaction['message']);
         }
+
+        public function testItShouldNotPerformRefundIfIdDoesNotExist()
+        {
+            $merchant = new Vpos\Vpos();
+            $transaction = $merchant->newRefund(id: "non-existent-transaction-id");
+            $this->assertIsArray($transaction);
+            $this->assertEquals(202, $transaction['status']);
+            $this->assertEquals('Accepted', $transaction['message']);
+        }
     }
 
 ?>
