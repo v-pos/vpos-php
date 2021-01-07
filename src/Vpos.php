@@ -41,10 +41,19 @@
         }
 
         public function newPayment($customer, $amount) {
-            $options = $this->setRequestOptions(
+            $options = $this->setRequestOptionsForPayment(
                 customer: $customer,
                 amount: $amount,
                 transaction_type: "payment"
+            );
+            $response = $this->client->request("POST", $this->host . "/transactions", $options);
+            return $this->returnVposObject($response);
+        }
+
+        public function newRefund($id) {
+            $options = $this->setRequestOptionsForRefund(
+                transaction_id: $id,
+                transaction_type: "refund"
             );
             $response = $this->client->request("POST", $this->host . "/transactions", $options);
             return $this->returnVposObject($response);
@@ -81,7 +90,7 @@
             }
         }
 
-        private function setRequestOptions($customer, $amount, $transaction_type) 
+        private function setRequestOptionsForPayment($customer, $amount, $transaction_type)
         {
             return [
                 'http_errors' => false,
@@ -100,6 +109,25 @@
                 ]
             ];
         }
+
+            private function setRequestOptionsForRefund($transaction_id, $transaction_type)
+            {
+                return [
+                    'http_errors' => false,
+                    'json' => [
+                        'type' => $transaction_type,
+                        'parent_transaction_id' => $transaction_id,
+                        'supervisor_card' => $this->supervisor_card,
+                        'callback_url' => $this->refund_callback_url
+                    ],
+                    'headers' => [
+                        'Idempotency-Key' => Uuid::uuid4()->toString(),
+                        'Authorization' => $this->merchant_vpos_token,
+                        'Content-Type' => 'application/json',
+                        'Accept' => 'application/json'
+                    ]
+                ];
+            }
 
         private function set_headers() 
         {
