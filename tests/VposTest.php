@@ -90,6 +90,16 @@
             $this->assertEquals(202, $payment['status']);
             $this->assertEquals('Accepted', $payment['message']);
         }
+
+        public function testItShouldNotPerformRefundIfTokenIsInvalid()
+        {
+            $merchant = new Vpos\Vpos();
+            $merchant->setToken("invalid-token");
+            $transaction = $merchant->newRefund(id: "non-existent-transaction-id");
+            $this->assertIsArray($transaction);
+            $this->assertEquals(401, $transaction['status']);
+            $this->assertEquals('Unauthorized', $transaction['message']);
+        }
     }
 
 ?>
