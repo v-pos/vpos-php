@@ -38,7 +38,7 @@
         public function testItShouldNotGetTransactionIfIdDoesNotExist() 
         {
             $merchant = new Vpos\Vpos();
-            $transaction = $merchant->getTransaction("9kOmKYUWxN0Jpe4PBoXzE");
+            $transaction = $merchant->getTransaction(id: "9kOmKYUWxN0Jpe4PBoXzE");
             $this->assertIsArray($transaction);
             $this->assertEquals(404, $transaction['status']);
             $this->assertEquals('Not Found', $transaction['message']);
@@ -48,10 +48,47 @@
         {
             $merchant = new Vpos\Vpos();
             $merchant->setToken("invalid-token");
-            $transaction = $merchant->getTransaction("9kOmKYUWxN0Jpe4PBoXzE");
+            $transaction = $merchant->getTransaction(id: "9kOmKYUWxN0Jpe4PBoXzE");
             $this->assertIsArray($transaction);
             $this->assertEquals(401, $transaction['status']);
             $this->assertEquals('Unauthorized', $transaction['message']);
+        }
+
+        public function testItShouldNotPerformPaymentIfTokenIsInvalid() 
+        {
+            $merchant = new Vpos\Vpos();
+            $merchant->setToken("invalid-token");
+            $transaction = $merchant->newPayment(customer: "92588855", amount: "1912.58");
+            $this->assertIsArray($transaction);
+            $this->assertEquals(401, $transaction['status']);
+            $this->assertEquals('Unauthorized', $transaction['message']);
+        }
+
+        public function testItShouldNotPerformPaymentIfAmountIsInvalid() 
+        {
+            $merchant = new Vpos\Vpos();
+            $transaction = $merchant->newPayment(customer: "92588855", amount: "invalid");
+            $this->assertIsArray($transaction);
+            $this->assertEquals(400, $transaction['status']);
+            $this->assertEquals('Bad Request', $transaction['message']);
+        }
+
+        public function testItShouldNotPerformPaymentIfCustomerIsInvalid() 
+        {
+            $merchant = new Vpos\Vpos();
+            $transaction = $merchant->newPayment(customer: "invalid", amount: "1900.99");
+            $this->assertIsArray($transaction);
+            $this->assertEquals(400, $transaction['status']);
+            $this->assertEquals('Bad Request', $transaction['message']);
+        }
+
+        public function testItShouldPerformPayment() 
+        {
+            $merchant = new Vpos\Vpos();
+            $payment = $merchant->newPayment(customer: "925888553", amount: "112.58");
+            $this->assertIsArray($payment);
+            $this->assertEquals(202, $payment['status']);
+            $this->assertEquals('Accepted', $payment['message']);
         }
     }
 
