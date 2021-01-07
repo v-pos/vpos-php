@@ -4,6 +4,7 @@
     namespace Vpos\Vpos;
 
     use GuzzleHttp\Client;
+    use GuzzleHttp\RequestOptions;
     use Ramsey\Uuid\Uuid;
 
     final class Vpos
@@ -92,7 +93,7 @@
                     'callback_url' => $this->payment_callback_url
                 ],
                 'headers' => [
-                'Idempotency-Key' => Uuid::uuid4()->toString(),  
+                'Idempotency-Key' => Uuid::uuid4()->toString(),
                 'Authorization' => $this->merchant_vpos_token,
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json'
@@ -113,17 +114,17 @@
 
         private function getPosId() 
         {
-            return (int) getenv("GPOS_POS_ID");
+            return (int) getenv("GPO_POS_ID");
         }
 
         private function getRefundCallbackUrl()
         {
-            return getenv("VPOS_REFUND_CALLBACK");
+            return getenv("VPOS_REFUND_CALLBACK_URL");
         }
 
         private function getPaymentCallbackUrl()
         {
-            return getenv("VPOS_PAYMENT_CALLBACK");
+            return getenv("VPOS_PAYMENT_CALLBACK_URL");
         }
 
         private function getSupervisorCard() 
