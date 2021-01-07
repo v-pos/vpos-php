@@ -78,7 +78,8 @@ and a valid amount.
 ```php
 use Vpos\Vpos;
 
-TODO
+$merchant = new Vpos\Vpos();
+$payment = $merchant->newPayment(customer: "925889553", amount: "112.58");
 ```
 
 | Argument | Description | Type |
