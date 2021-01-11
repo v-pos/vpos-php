@@ -50,9 +50,9 @@ The next section will show the various payment actions that can be performed by 
 This endpoint retrieves all transactions.
 
 ```php
-use Vpos\Vpos;
+use Vpos\Vpos\Vpos;
 
-$merchant = new Vpos\Vpos();
+$merchant = new Vpos();
 $transactions = $merchant->getTransactions();
 ```
 
@@ -61,9 +61,9 @@ Retrieves a transaction given a valid transaction ID.
 
 
 ```php
-use Vpos\Vpos;
+use Vpos\Vpos\Vpos;
 
-$merchant = new Vpos\Vpos();
+$merchant = new Vpos();
 $transaction = $merchant->getTransaction("9kOmKYUWxN0Jpe4PBoXzE");
 ```
 
@@ -76,9 +76,9 @@ Creates a new payment transaction given a valid mobile number associated with a 
 and a valid amount.
 
 ```php
-use Vpos\Vpos;
+use Vpos\Vpos\Vpos;
 
-$merchant = new Vpos\Vpos();
+$merchant = new Vpos();
 $payment = $merchant->newPayment(customer: "925889553", amount: "112.58");
 ```
 
@@ -91,9 +91,9 @@ $payment = $merchant->newPayment(customer: "925889553", amount: "112.58");
 Given an existing `parent_transaction_id`, request a refund.
 
 ```php
-use Vpos\Vpos;
+use Vpos\Vpos\Vpos;
 
-$merchant = new Vpos\Vpos();
+$merchant = new Vpos();
 refund = $merchant->newRefund(id: "9kOmKYUWxN0Jpe4PBoXzE");
 ```
 
@@ -107,9 +107,9 @@ Poll the status of a transaction given a valid `request_id`.
 Note: The `request_id` or simply `id` in this context is essentially the `transaction_id` of an existing request. 
 
 ```php
-use Vpos\Vpos;
+use Vpos\Vpos\Vpos;
 
-$merchant = new Vpos\Vpos();
+$merchant = new Vpos();
 $request = $merchant->getRequest(id: "9kOmKYUWxN0Jpe4PBoXzE");
 ```
 

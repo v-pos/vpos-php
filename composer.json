@@ -21,7 +21,8 @@
     "authors": [
         {
             "name": "Alexandre Antonio Juca",
-            "email": "alexandre.juca@nextbss.co.ao"
+            "email": "alexandre.juca@nextbss.co.ao",
+            "role": "Software Engineer"
         }
     ],
     "autoload": {
@@ -36,6 +37,5 @@
     },
     "scripts": {
         "test": ["vendor/bin/phpunit tests"]
-
     }
 }

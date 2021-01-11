@@ -1,7 +1,7 @@
 <?php
 
     declare(strict_types=1);
-    namespace Vpos\Vpos;
+    namespace Vpos\Vpos\Vpos;
 
     class Vpos
     {
