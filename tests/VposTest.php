@@ -1,7 +1,7 @@
 <?php
     declare(strict_types=1);
 
-    namespace Vpos\VposTest;
+    namespace Vpos\Vpos\VposTest;
 
     use PHPUnit\Framework\TestCase;
     use Ramsey\Uuid\Uuid;
@@ -9,13 +9,6 @@
 
     class VposTest extends TestCase 
     {
-        private $valid_token = "";
-
-        public function setUp(): void
-        {
-            $this->valid_token = getenv("MERCHANT_VPOS_TOKEN");
-        }
-
         // Get Transactions
         public function testItShouldGetTransactions() 
         {
