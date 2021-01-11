@@ -140,5 +140,3 @@
             $this->assertNotEmpty($request['data']);
         }
     }
-
-?>
