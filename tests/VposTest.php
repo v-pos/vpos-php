@@ -125,7 +125,6 @@
             $this->assertEquals('Unauthorized', $request['message']);
         }
 
-
         public function testItShouldGetRequestById()
         {
             $merchant = new Vpos\Vpos();
