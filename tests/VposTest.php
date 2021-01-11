@@ -1,10 +1,9 @@
 <?php
     declare(strict_types=1);
 
-    namespace Vpos\Vpos\VposTest;
+    namespace Vpos\VposTest;
 
     use PHPUnit\Framework\TestCase;
-    use Ramsey\Uuid\Uuid;
     use Vpos\Vpos\Vpos;
 
     class VposTest extends TestCase 
