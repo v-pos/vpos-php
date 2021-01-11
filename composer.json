@@ -36,6 +36,5 @@
     },
     "scripts": {
         "test": ["vendor/bin/phpunit tests"]
-
     }
 }
