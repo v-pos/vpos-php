@@ -9,13 +9,13 @@
 
     final class Vpos
     {
-        private $host = "";
-        private $pos_id = 0;
-        private $refund_callback_url = "";
-        private $payment_callback_url = "";
-        private $supervisor_card = "";
-        private $merchant_vpos_token = "";
-        private $client = null;
+        private $host;
+        private $pos_id;
+        private $refund_callback_url;
+        private $payment_callback_url;
+        private $supervisor_card;
+        private $merchant_vpos_token;
+        private $client;
         const LOCATION = 17;
 
         public function __construct() 
@@ -195,4 +195,3 @@
         }
     }
 
-?>
