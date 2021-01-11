@@ -14,7 +14,7 @@
         private $refund_callback_url;
         private $payment_callback_url;
         private $supervisor_card;
-        private $merchant_vpos_token;
+        private $token;
         private $client;
         const LOCATION = 17;
 
@@ -25,7 +25,7 @@
             $this->refund_callback_url = $this->getRefundCallbackUrl();
             $this->payment_callback_url = $this->getPaymentCallbackUrl();
             $this->supervisor_card = $this->getSupervisorCard();
-            $this->merchant_vpos_token = $this->getMerchantToken();
+            $this->token = $this->getMerchantToken();
             $this->client = new \GuzzleHttp\Client();
         }
 
@@ -78,7 +78,7 @@
 
         public function setToken($token): void 
         {
-            $this->merchant_vpos_token = "Bearer ". $token;
+            $this->token = "Bearer ". $token;
         }
 
         private function returnVposObject($response) 
@@ -120,7 +120,7 @@
                 ],
                 'headers' => [
                 'Idempotency-Key' => Uuid::uuid4()->toString(),
-                'Authorization' => $this->merchant_vpos_token,
+                'Authorization' => $this->token,
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json'
                 ]
@@ -140,7 +140,7 @@
                     ],
                     'headers' => [
                         'Idempotency-Key' => Uuid::uuid4()->toString(),
-                        'Authorization' => $this->merchant_vpos_token,
+                        'Authorization' => $this->token,
                         'Content-Type' => 'application/json',
                         'Accept' => 'application/json'
                     ]
@@ -153,7 +153,7 @@
                 'http_errors' => false,
                 ['allow_redirects' => false],
                 'headers' => [
-                'Authorization' => $this->merchant_vpos_token,
+                'Authorization' => $this->token,
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json']
             ];
