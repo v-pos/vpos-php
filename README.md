@@ -8,7 +8,7 @@ Allowing merchants apps/services to request a payment from a client through his/
 
 The service currently works for solutions listed below:
 
-EMIS (Multicaixa Express)
+EMIS - GPO (Multicaixa Express)
 
 Want to know more about how we are empowering merchants in Angola? See our [website](https://vpos.ao)
 
