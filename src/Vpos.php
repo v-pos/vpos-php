@@ -17,7 +17,7 @@
         private $token;
         private $client;
 
-        public function __construct() 
+        public function __construct()
         {
             $this->host = $this->getHost();
             $this->pos_id = $this->getPosId();
@@ -86,19 +86,19 @@
             switch($response->getStatusCode()) {
                 case 200:
                     return [
-                    'status' => $response->getStatusCode(),
+                    'status_code' => $response->getStatusCode(),
                     'message' => $response->getReasonPhrase(),
                     'data' => $response->getBody()->getContents()
                 ];
                 case 202:
                     return [
-                        'status' => $response->getStatusCode(),
+                        'status_code' => $response->getStatusCode(),
                         'message' => $response->getReasonPhrase(),
                         'location' => $response->getHeader('Location')[0]
                  ];
                  default:
                  return [
-                    'status' => $response->getStatusCode(),
+                    'status_code' => $response->getStatusCode(),
                     'message' => $response->getReasonPhrase(),
                     'details' => $response->getBody()->getContents()
                 ];
@@ -199,7 +199,7 @@
 
         public function getRequestId($response)
         {
-            if ($response['status'] == 202) {
+            if ($response['status_code'] == 202) {
                 return substr($response['location'], self::LOCATION);
             }
         }
