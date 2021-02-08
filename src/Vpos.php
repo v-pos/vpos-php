@@ -4,18 +4,20 @@
     namespace Vpos\Vpos;
 
     use GuzzleHttp\Client;
+    use JetBrains\PhpStorm\ArrayShape;
+    use JetBrains\PhpStorm\Pure;
     use Ramsey\Uuid\Uuid;
 
     final class Vpos
     {
         const LOCATION = 17;
-        private $host;
-        private $pos_id;
-        private $refund_callback_url;
-        private $payment_callback_url;
-        private $supervisor_card;
-        private $token;
-        private $client;
+        private string $host;
+        private int $pos_id;
+        private false|array|string $refund_callback_url;
+        private false|array|string $payment_callback_url;
+        private false|array|string $supervisor_card;
+        private string $token;
+        private Client $client;
 
         public function __construct()
         {
@@ -28,7 +30,7 @@
             $this->client = new Client();
         }
 
-        private function getHost()
+        #[Pure] private function getHost(): string
         {
             if (getenv("VPOS_ENVIRONMENT") == "PRD")
             {
@@ -38,38 +40,38 @@
             }
         }
 
-        private function getPosId()
+        #[Pure] private function getPosId(): int
         {
             return (int) getenv("GPO_POS_ID");
         }
 
-        private function getRefundCallbackUrl()
+        #[Pure] private function getRefundCallbackUrl(): bool|array|string
         {
             return getenv("VPOS_REFUND_CALLBACK_URL");
         }
 
-        private function getPaymentCallbackUrl()
+        #[Pure] private function getPaymentCallbackUrl(): bool|array|string
         {
             return getenv("VPOS_PAYMENT_CALLBACK_URL");
         }
 
-        private function getSupervisorCard()
+        #[Pure] private function getSupervisorCard(): bool|array|string
         {
             return getenv("GPO_SUPERVISOR_CARD");
         }
 
-        private function getMerchantToken()
+        #[Pure] private function getMerchantToken(): string
         {
             return "Bearer " . getenv("MERCHANT_VPOS_TOKEN");
         }
 
-        public function getTransactions()
+        public function getTransactions(): array
         {
             $response = $this->client->request('GET', $this->host . "/transactions", $this->setDefaultRequestOptions());
             return $this->returnVposObject($response);
         }
 
-        private function setDefaultRequestOptions()
+        #[ArrayShape(['http_errors' => "false", 1 => "false[]", 'headers' => "array"])] private function setDefaultRequestOptions(): array
         {
             return [
                 'http_errors' => false,
@@ -81,7 +83,7 @@
             ];
         }
 
-        private function returnVposObject($response)
+        private function returnVposObject($response): array
         {
             switch($response->getStatusCode()) {
                 case 200:
@@ -106,7 +108,7 @@
             }
         }
 
-        public function getTransaction($id)
+        public function getTransaction($id): array
         {
             $response = $this->client->request(
                 "GET",
@@ -116,7 +118,7 @@
             return $this->returnVposObject($response);
         }
 
-        public function newPayment($customer, $amount)
+        public function newPayment($customer, $amount): array
         {
             $options = $this->setRequestOptionsForPayment(
                 customer: $customer,
@@ -131,7 +133,7 @@
             return $this->returnVposObject($response);
         }
 
-        private function setRequestOptionsForPayment($customer, $amount, $transaction_type)
+        #[ArrayShape(['http_errors' => "false", 1 => "false[]", 'json' => "array", 'headers' => "array"])] private function setRequestOptionsForPayment($customer, $amount, $transaction_type): array
         {
             return [
                 'http_errors' => false,
@@ -152,7 +154,7 @@
             ];
         }
 
-        public function newRefund($id)
+        public function newRefund($id): array
         {
             $options = $this->setRequestOptionsForRefund(
                 transaction_id: $id,
@@ -166,7 +168,7 @@
             return $this->returnVposObject($response);
         }
 
-        private function setRequestOptionsForRefund($transaction_id, $transaction_type)
+        #[ArrayShape(['http_errors' => "false", 1 => "false[]", 'json' => "array", 'headers' => "array"])] private function setRequestOptionsForRefund($transaction_id, $transaction_type): array
         {
             return [
                 'http_errors' => false,
@@ -186,7 +188,7 @@
             ];
         }
 
-        public function getRequest($id)
+        public function getRequest($id): array
         {
             $options = $this->setDefaultRequestOptions();
             $response = $this->client->request(
@@ -197,7 +199,7 @@
             return $this->returnVposObject($response);
         }
 
-        public function getRequestId($response)
+        #[Pure] public function getRequestId($response): string
         {
             if ($response['status_code'] == 202) {
                 return substr($response['location'], self::LOCATION);
