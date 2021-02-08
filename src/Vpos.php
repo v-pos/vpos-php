@@ -122,10 +122,10 @@
                 transaction_type: "payment"
             );
             $response = $this->client->request(
-                "POST",
-                $this->host . "/transactions",
-                $options)
-            ;
+                method: "POST",
+                uri: $this->host . "/transactions",
+                options: $options
+            );
             return $this->returnVposObject($response);
         }
 
@@ -200,6 +200,7 @@
             if ($response['status_code'] == 202) {
                 return substr($response['location'], self::LOCATION);
             }
+            return substr($response['location'], self::LOCATION);
         }
 
         public function setToken($token): void
