@@ -85,27 +85,23 @@
 
         private function returnVposObject($response): array
         {
-            switch($response->getStatusCode()) {
-                case 200:
-                    return [
+            return match ($response->getStatusCode()) {
+                200 => [
                     'status_code' => $response->getStatusCode(),
                     'message' => $response->getReasonPhrase(),
                     'data' => $response->getBody()->getContents()
-                ];
-                case 202:
-                    return [
-                        'status_code' => $response->getStatusCode(),
-                        'message' => $response->getReasonPhrase(),
-                        'location' => $response->getHeader('Location')[0]
-                 ];
-                 default:
-                 return [
+                ],
+                202 => [
+                    'status_code' => $response->getStatusCode(),
+                    'message' => $response->getReasonPhrase(),
+                    'location' => $response->getHeader('Location')[0]
+                ],
+                default => [
                     'status_code' => $response->getStatusCode(),
                     'message' => $response->getReasonPhrase(),
                     'details' => $response->getBody()->getContents()
-                ];
-
-            }
+                ],
+            };
         }
 
         public function getTransaction($id): array
