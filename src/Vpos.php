@@ -47,12 +47,12 @@
 
         #[Pure] private function getRefundCallbackUrl(): bool|array|string
         {
-            return getenv("VPOS_REFUND_CALLBACK_URL");
+            return getenv("REFUND_CALLBACK_URL");
         }
 
         #[Pure] private function getPaymentCallbackUrl(): bool|array|string
         {
-            return getenv("VPOS_PAYMENT_CALLBACK_URL");
+            return getenv("PAYMENT_CALLBACK_URL");
         }
 
         #[Pure] private function getSupervisorCard(): bool|array|string
