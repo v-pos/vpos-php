@@ -1,5 +1,9 @@
 # vPOS PHP
 
+<p align="center"><a href="#/"><img src="https://github.com/nextbss/vpos-php/blob/main/assets/logo.png" alt="vPOS"></a></p>
+
+The number #1 payment solution in Angola
+
 ![PHP Composer](https://github.com/nextbss/vpos-php/workflows/PHP%20Composer/badge.svg)
 [![](https://img.shields.io/badge/nextbss-opensource-blue.svg)](https://www.nextbss.co.ao)
 
