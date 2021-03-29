@@ -19,7 +19,7 @@
         private string $token;
         private Client $client;
 
-        public function __construct($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card)
+        public function __construct($token, $pos_id, $supervisor_card, $payment_callback_url, $refund_callback_url, )
         {
             $this->host = $this->getHost();
             $this->pos_id = (int) $pos_id;
