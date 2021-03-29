@@ -46,13 +46,39 @@ be able to authenticate and communicate effectively with our API using this libr
 
 The next section will show the various payment actions that can be performed by you, the merchant.
 
+### How to instantiate vPOS
+To create an instance of a vPOS merchant see argument table and a simple example below. 
+
+#### Constructor Arguments
+
+| Argument | Description | Type |
+| --- | --- | --- |
+| `token` | Token generated at [vPOS](https://merchant.vpos.ao) dashboard | `string`
+| `pos_id` | Merchant POS ID provided by EMIS | `string`
+| `supervisor_card` | Merchant Supervisor Card number provided by EMIS | `string`
+| `payment_callback_url` | Merchant application JSON endpoint to accept the callback payment response | `string`
+| `refund_callback_url` | Merchant application JSON endpoint to accept the callback refund response | `string`
+
+#### Example
+
+```php
+
+$token = "YOUR VPOS TOKEN";
+$pos_id = "YOUR GPO POS ID";
+$payment_callback_url = "YOUR PAYMENT CALLBACK URL";
+$refund_callback_url = "YOUR REFUND CALLBACK URL";
+$supervisor_card = "YOUR GPO SUPERVISOR CARD";
+
+$merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
+```
+
 ### Get all Transactions
 This endpoint retrieves all transactions.
 
 ```php
 use Vpos\Vpos\Vpos;
 
-$merchant = new Vpos();
+$merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
 $transactions = $merchant->getTransactions();
 ```
 
@@ -63,7 +89,7 @@ Retrieves a transaction given a valid transaction ID.
 ```php
 use Vpos\Vpos\Vpos;
 
-$merchant = new Vpos();
+$merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
 $transaction = $merchant->getTransaction("9kOmKYUWxN0Jpe4PBoXzE");
 ```
 
@@ -78,7 +104,7 @@ and a valid amount.
 ```php
 use Vpos\Vpos\Vpos;
 
-$merchant = new Vpos();
+$merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
 $payment = $merchant->newPayment(customer: "925889553", amount: "112.58");
 ```
 
@@ -93,7 +119,7 @@ Given an existing `parent_transaction_id`, request a refund.
 ```php
 use Vpos\Vpos\Vpos;
 
-$merchant = new Vpos();
+$merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
 refund = $merchant->newRefund(id: "9kOmKYUWxN0Jpe4PBoXzE");
 ```
 
@@ -109,7 +135,7 @@ Note: The `request_id` or simply `id` in this context is essentially the `transa
 ```php
 use Vpos\Vpos\Vpos;
 
-$merchant = new Vpos();
+$merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
 $request = $merchant->getRequest(id: "9kOmKYUWxN0Jpe4PBoXzE");
 ```
 

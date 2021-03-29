@@ -19,14 +19,14 @@
         private string $token;
         private Client $client;
 
-        public function __construct()
+        public function __construct($token, $pos_id, $supervisor_card, $payment_callback_url, $refund_callback_url, )
         {
             $this->host = $this->getHost();
-            $this->pos_id = $this->getPosId();
-            $this->refund_callback_url = $this->getRefundCallbackUrl();
-            $this->payment_callback_url = $this->getPaymentCallbackUrl();
-            $this->supervisor_card = $this->getSupervisorCard();
-            $this->token = $this->getMerchantToken();
+            $this->pos_id = (int) $pos_id;
+            $this->refund_callback_url = $refund_callback_url;
+            $this->payment_callback_url = $payment_callback_url;
+            $this->supervisor_card = $supervisor_card;
+            $this->token = "Bearer " . $token;
             $this->client = new Client();
         }
 
@@ -38,31 +38,6 @@
             } else {
                 return "https://sandbox.vpos.ao/api/v1";
             }
-        }
-
-        #[Pure] private function getPosId(): int
-        {
-            return (int) getenv("GPO_POS_ID");
-        }
-
-        #[Pure] private function getRefundCallbackUrl(): bool|array|string
-        {
-            return getenv("REFUND_CALLBACK_URL");
-        }
-
-        #[Pure] private function getPaymentCallbackUrl(): bool|array|string
-        {
-            return getenv("PAYMENT_CALLBACK_URL");
-        }
-
-        #[Pure] private function getSupervisorCard(): bool|array|string
-        {
-            return getenv("GPO_SUPERVISOR_CARD");
-        }
-
-        #[Pure] private function getMerchantToken(): string
-        {
-            return "Bearer " . getenv("MERCHANT_VPOS_TOKEN");
         }
 
         public function getTransactions(): array
