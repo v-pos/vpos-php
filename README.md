@@ -1,6 +1,6 @@
 # vPOS PHP
 
-<p align="center"><a href="#/"><img src="https://github.com/nextbss/vpos-php/blob/main/assets/logo.png" alt="vPOS"></a></p>
+<p align="center"><a href="#/"><img src="https://github.com/nextbss/vpos-php/blob/master/assets/logo.png" alt="vPOS"></a></p>
 
 The number #1 payment solution in Angola
 
