@@ -11,7 +11,13 @@
         // Get Transactions
         public function testItShouldGetTransactions()
         {
-            $merchant = new Vpos();
+            $token = getenv("MERCHANT_VPOS_TOKEN");
+            $pos_id = getenv("GPO_POS_ID");
+            $payment_callback_url = getenv("PAYMENT_CALLBACK_URL");
+            $refund_callback_url = getenv("REFUND_CALLBACK_URL");
+            $supervisor_card = getenv("GPO_SUPERVISOR_CARD");
+
+            $merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
             $transactions = $merchant->getTransactions();
             $this->assertIsArray($transactions);
             $this->assertEquals(200, $transactions['status_code']);
@@ -20,7 +26,13 @@
 
         public function testItShouldNotGetTransactionsIfTokenIsInvalid()
         {
-            $merchant = new Vpos();
+            $token = getenv("MERCHANT_VPOS_TOKEN");
+            $pos_id = getenv("GPO_POS_ID");
+            $payment_callback_url = getenv("PAYMENT_CALLBACK_URL");
+            $refund_callback_url = getenv("REFUND_CALLBACK_URL");
+            $supervisor_card = getenv("GPO_SUPERVISOR_CARD");
+            
+            $merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
             $merchant->setToken("invalid-token");
             $transactions = $merchant->getTransactions();
             $this->assertIsArray($transactions);
@@ -30,7 +42,13 @@
 
         public function testItShouldNotGetTransactionIfIdDoesNotExist()
         {
-            $merchant = new Vpos();
+            $token = getenv("MERCHANT_VPOS_TOKEN");
+            $pos_id = getenv("GPO_POS_ID");
+            $payment_callback_url = getenv("PAYMENT_CALLBACK_URL");
+            $refund_callback_url = getenv("REFUND_CALLBACK_URL");
+            $supervisor_card = getenv("GPO_SUPERVISOR_CARD");
+            
+            $merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
             $transaction = $merchant->getTransaction(id: "9kOmKYUWxN0Jpe4PBoXzE");
             $this->assertIsArray($transaction);
             $this->assertEquals(404, $transaction['status_code']);
@@ -39,7 +57,13 @@
 
         public function testItShouldNotGetTransactionByIdIfTokenIsInvalid()
         {
-            $merchant = new Vpos();
+            $token = getenv("MERCHANT_VPOS_TOKEN");
+            $pos_id = getenv("GPO_POS_ID");
+            $payment_callback_url = getenv("PAYMENT_CALLBACK_URL");
+            $refund_callback_url = getenv("REFUND_CALLBACK_URL");
+            $supervisor_card = getenv("GPO_SUPERVISOR_CARD");
+            
+            $merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
             $merchant->setToken("invalid-token");
             $transaction = $merchant->getTransaction(id: "9kOmKYUWxN0Jpe4PBoXzE");
             $this->assertIsArray($transaction);
@@ -50,7 +74,13 @@
         // New Payment
         public function testItShouldNotPerformPaymentIfTokenIsInvalid()
         {
-            $merchant = new Vpos();
+            $token = getenv("MERCHANT_VPOS_TOKEN");
+            $pos_id = getenv("GPO_POS_ID");
+            $payment_callback_url = getenv("PAYMENT_CALLBACK_URL");
+            $refund_callback_url = getenv("REFUND_CALLBACK_URL");
+            $supervisor_card = getenv("GPO_SUPERVISOR_CARD");
+            
+            $merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
             $merchant->setToken("invalid-token");
             $transaction = $merchant->newPayment(customer: "92588855", amount: "1912.58");
             $this->assertIsArray($transaction);
@@ -60,7 +90,13 @@
 
         public function testItShouldNotPerformPaymentIfAmountIsInvalid()
         {
-            $merchant = new Vpos();
+            $token = getenv("MERCHANT_VPOS_TOKEN");
+            $pos_id = getenv("GPO_POS_ID");
+            $payment_callback_url = getenv("PAYMENT_CALLBACK_URL");
+            $refund_callback_url = getenv("REFUND_CALLBACK_URL");
+            $supervisor_card = getenv("GPO_SUPERVISOR_CARD");
+            
+            $merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
             $transaction = $merchant->newPayment(customer: "92588855", amount: "invalid");
             $this->assertIsArray($transaction);
             $this->assertEquals(400, $transaction['status_code']);
@@ -69,7 +105,13 @@
 
         public function testItShouldNotPerformPaymentIfCustomerIsInvalid()
         {
-            $merchant = new Vpos();
+            $token = getenv("MERCHANT_VPOS_TOKEN");
+            $pos_id = getenv("GPO_POS_ID");
+            $payment_callback_url = getenv("PAYMENT_CALLBACK_URL");
+            $refund_callback_url = getenv("REFUND_CALLBACK_URL");
+            $supervisor_card = getenv("GPO_SUPERVISOR_CARD");
+            
+            $merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
             $transaction = $merchant->newPayment(customer: "invalid", amount: "1900.99");
             $this->assertIsArray($transaction);
             $this->assertEquals(400, $transaction['status_code']);
@@ -78,7 +120,13 @@
 
         public function testItShouldPerformPayment()
         {
-            $merchant = new Vpos();
+            $token = getenv("MERCHANT_VPOS_TOKEN");
+            $pos_id = getenv("GPO_POS_ID");
+            $payment_callback_url = getenv("PAYMENT_CALLBACK_URL");
+            $refund_callback_url = getenv("REFUND_CALLBACK_URL");
+            $supervisor_card = getenv("GPO_SUPERVISOR_CARD");
+            
+            $merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
             $payment = $merchant->newPayment(customer: "925888553", amount: "112.58");
             $this->assertIsArray($payment);
             $this->assertEquals(202, $payment['status_code']);
@@ -89,7 +137,13 @@
         // New Refund
         public function testItShouldNotPerformRefundIfTokenIsInvalid()
         {
-            $merchant = new Vpos();
+            $token = getenv("MERCHANT_VPOS_TOKEN");
+            $pos_id = getenv("GPO_POS_ID");
+            $payment_callback_url = getenv("PAYMENT_CALLBACK_URL");
+            $refund_callback_url = getenv("REFUND_CALLBACK_URL");
+            $supervisor_card = getenv("GPO_SUPERVISOR_CARD");
+            
+            $merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
             $merchant->setToken("invalid-token");
             $transaction = $merchant->newRefund(id: "non-existent-transaction-id");
             $this->assertIsArray($transaction);
@@ -99,7 +153,13 @@
 
         public function testItShouldNotPerformRefundIfIdDoesNotExist()
         {
-            $merchant = new Vpos();
+            $token = getenv("MERCHANT_VPOS_TOKEN");
+            $pos_id = getenv("GPO_POS_ID");
+            $payment_callback_url = getenv("PAYMENT_CALLBACK_URL");
+            $refund_callback_url = getenv("REFUND_CALLBACK_URL");
+            $supervisor_card = getenv("GPO_SUPERVISOR_CARD");
+            
+            $merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
             $transaction = $merchant->newRefund(id: "non-existent-transaction-id");
             $this->assertIsArray($transaction);
             $this->assertEquals(202, $transaction['status_code']);
@@ -109,7 +169,13 @@
         // Poll Resource
         public function testItShouldNotGetRequestByIdIfTokenIsInvalid()
         {
-            $merchant = new Vpos();
+            $token = getenv("MERCHANT_VPOS_TOKEN");
+            $pos_id = getenv("GPO_POS_ID");
+            $payment_callback_url = getenv("PAYMENT_CALLBACK_URL");
+            $refund_callback_url = getenv("REFUND_CALLBACK_URL");
+            $supervisor_card = getenv("GPO_SUPERVISOR_CARD");
+            
+            $merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
             $merchant->setToken("invalid-token");
             $request = $merchant->getRequest(id: "9kOmKYUWxN0Jpe4PBoXzE");
             $this->assertIsArray($request);
@@ -119,7 +185,13 @@
 
         public function testItShouldGetRequestById()
         {
-            $merchant = new Vpos();
+            $token = getenv("MERCHANT_VPOS_TOKEN");
+            $pos_id = getenv("GPO_POS_ID");
+            $payment_callback_url = getenv("PAYMENT_CALLBACK_URL");
+            $refund_callback_url = getenv("REFUND_CALLBACK_URL");
+            $supervisor_card = getenv("GPO_SUPERVISOR_CARD");
+            
+            $merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
 
             $payment = $merchant->newPayment(customer: "925888553", amount: "112.58");
 
