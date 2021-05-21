@@ -1,11 +1,11 @@
 # vPOS PHP
 
-<p align="center"><a href="#/"><img src="https://github.com/nextbss/vpos-php/blob/master/assets/logo.png" alt="vPOS"></a></p>
+<p align="center"><a href="#/"><img src="https://github.com/v-pos/vpos-php/blob/master/assets/logo.png" alt="vPOS"></a></p>
 
 The number #1 payment solution in Angola
 
-![PHP Composer](https://github.com/nextbss/vpos-php/workflows/PHP%20Composer/badge.svg)
-[![](https://img.shields.io/badge/nextbss-opensource-blue.svg)](https://www.nextbss.co.ao)
+![PHP Composer](https://github.com/v-pos/vpos-php/workflows/PHP%20Composer/badge.svg)
+[![](https://img.shields.io/badge/vPOS-OpenSource-blue.svg)](https://www.vpos.ao)
 
 This php library helps you easily interact with the vPOS API,
 Allowing merchants apps/services to request a payment from a client through his/her mobile phone number.
@@ -115,7 +115,7 @@ $payment = $merchant->newPayment(customer: "925889553", amount: "112.58");
 | Argument | Description | Type |
 | --- | --- | --- |
 | `mobile` | The mobile number of the client who will pay | `string`
-| `amount` | The amount the client should pay, eg. "259.99", "259,000.00" | `string`
+| `amount` | The amount the client should pay, eg. "259.99", "259000.00" | `string`
 
 ### Request Refund
 Given an existing `parent_transaction_id`, request a refund.
