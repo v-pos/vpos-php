@@ -1,15 +1,16 @@
 {
-    "name": "nextbss/vpos",
-    "description": "The number #1 payment solution in Angola",
+    "name": "vpos/vpos",
+    "description": "Payments made easy",
     "type": "library",
     "keywords":
         ["vpos",
-        "vpos-php",
-        "nextbss",
+        "emis",
         "payments",
-        "angola"
+        "angola",
+        "multicaixa",
+        "online"
     ],
-    "homepage": "https://github.com/nextbss/vpos-php",
+    "homepage": "https://github.com/v-pos/vpos-php",
     "require": {
         "php": "^8",
         "phpunit/phpunit": "^9.5",
@@ -22,13 +23,21 @@
         {
             "name": "Alexandre Antonio Juca",
             "email": "alexandre.juca@nextbss.co.ao",
-            "role": "Software Engineer"
+            "role": "Developer"
+        },
+        {
+            "name": "Sergio Maziano",
+            "email": "sergio.maziano@vpos.ao",
+            "role": "Developer"
         }
     ],
     "autoload": {
         "psr-4": {
             "Vpos\\Vpos\\": "src/"
         }
+    },
+    "support": {
+        "email": "suporte@vpos.ao"
     },
     "autoload-dev": {
         "psr-4": {

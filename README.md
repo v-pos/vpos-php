@@ -74,19 +74,8 @@ $supervisor_card = "YOUR GPO SUPERVISOR CARD";
 $merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
 ```
 
-### Get all Transactions
-This endpoint retrieves all transactions.
-
-```php
-use Vpos\Vpos\Vpos;
-
-$merchant = new Vpos($token, $pos_id, $payment_callback_url, $refund_callback_url, $supervisor_card);
-$transactions = $merchant->getTransactions();
-```
-
 ### Get a specific Transaction
 Retrieves a transaction given a valid transaction ID.
-
 
 ```php
 use Vpos\Vpos\Vpos;

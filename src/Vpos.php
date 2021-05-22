@@ -40,12 +40,6 @@
             }
         }
 
-        public function getTransactions(): array
-        {
-            $response = $this->client->request('GET', $this->host . "/transactions", $this->setDefaultRequestOptions());
-            return $this->returnVposObject($response);
-        }
-
         #[ArrayShape(['http_errors' => "false", 1 => "false[]", 'headers' => "array"])] private function setDefaultRequestOptions(): array
         {
             return [
