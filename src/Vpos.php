@@ -32,12 +32,7 @@
 
         #[Pure] private function getHost(): string
         {
-            if (getenv("VPOS_ENVIRONMENT") == "PRD")
-            {
-                return "https://api.vpos.ao/api/v1";
-            } else {
-                return "https://sandbox.vpos.ao/api/v1";
-            }
+            return "https://vpos.ao/api/v1";
         }
 
         #[ArrayShape(['http_errors' => "false", 1 => "false[]", 'headers' => "array"])] private function setDefaultRequestOptions(): array

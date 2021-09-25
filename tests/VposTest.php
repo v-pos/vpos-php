@@ -8,38 +8,7 @@
 
     class VposTest extends TestCase
     {
-        // Get Transactions
-        public function testItShouldGetTransactions()
-        {
-            $token = getenv("MERCHANT_VPOS_TOKEN");
-            $pos_id = getenv("GPO_POS_ID");
-            $supervisor_card = getenv("GPO_SUPERVISOR_CARD");
-            $payment_callback_url = getenv("PAYMENT_CALLBACK_URL");
-            $refund_callback_url = getenv("REFUND_CALLBACK_URL");
-
-            $merchant = new Vpos($token, $pos_id, $supervisor_card, $payment_callback_url, $refund_callback_url);
-            $transactions = $merchant->getTransactions();
-            $this->assertIsArray($transactions);
-            $this->assertEquals(200, $transactions['status_code']);
-            $this->assertEquals('OK', $transactions['message']);
-        }
-
-        public function testItShouldNotGetTransactionsIfTokenIsInvalid()
-        {
-            $token = getenv("MERCHANT_VPOS_TOKEN");
-            $pos_id = getenv("GPO_POS_ID");
-            $supervisor_card = getenv("GPO_SUPERVISOR_CARD");
-            $payment_callback_url = getenv("PAYMENT_CALLBACK_URL");
-            $refund_callback_url = getenv("REFUND_CALLBACK_URL");
-
-            $merchant = new Vpos($token, $pos_id, $supervisor_card, $payment_callback_url, $refund_callback_url);
-            $merchant->setToken("invalid-token");
-            $transactions = $merchant->getTransactions();
-            $this->assertIsArray($transactions);
-            $this->assertEquals(401, $transactions['status_code']);
-            $this->assertEquals('Unauthorized', $transactions['message']);
-        }
-
+        // Get Transaction
         public function testItShouldNotGetTransactionIfIdDoesNotExist()
         {
             $token = getenv("MERCHANT_VPOS_TOKEN");
