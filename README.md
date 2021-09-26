@@ -2,7 +2,6 @@
 
 <p align="center"><a href="#/"><img src="https://github.com/v-pos/vpos-php/blob/master/assets/logo.png" alt="vPOS"></a></p>
 
-![PHP Composer](https://github.com/v-pos/vpos-php/workflows/PHP%20Composer/badge.svg)
 [![](https://img.shields.io/badge/vPOS-OpenSource-blue.svg)](https://www.vpos.ao)
 
 This php library helps you easily interact with the vPOS API,
