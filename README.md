@@ -2,7 +2,6 @@
 
 <p align="center"><a href="#/"><img src="https://github.com/v-pos/vpos-php/blob/master/assets/logo.png" alt="vPOS"></a></p>
 
-![PHP Composer](https://github.com/v-pos/vpos-php/workflows/PHP%20Composer/badge.svg)
 [![](https://img.shields.io/badge/vPOS-OpenSource-blue.svg)](https://www.vpos.ao)
 
 This php library helps you easily interact with the vPOS API,
@@ -39,7 +38,6 @@ interacting with the API using this library:
 | `MERCHANT_VPOS_TOKEN` | The API token provided by vPOS | true |
 | `PAYMENT_CALLBACK_URL` | The URL that will handle payment notifications | false |
 | `REFUND_CALLBACK_URL` | The URL that will handle refund notifications | false |
-| `VPOS_ENVIRONMENT` | The vPOS environment, leave empty for `sandbox` mode and use `"PRD"` for `production`.  | false |
 
 Don't have this information? [Talk to us](suporte@vpos.ao)
 
@@ -64,7 +62,6 @@ To create an instance of a vPOS merchant see argument table and a simple example
 #### Example
 
 ```php
-
 $token = "YOUR VPOS TOKEN";
 $pos_id = "YOUR GPO POS ID";
 $payment_callback_url = "YOUR PAYMENT CALLBACK URL";
