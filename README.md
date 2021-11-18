@@ -24,7 +24,7 @@ See our documentation on [developer.vpos.ao](https://developer.vpos.ao)
 
 ## Installation
 ```php
-compose require nextbss/vpos
+compose require vpos/vpos
 ```
 
 ### Configuration
